@@ -1,19 +1,28 @@
-node {
-  stage ('Parallel') {
-    parallel helloBranch: {
-      echo 'Hello World'
-    },
-    loop10Branch: {
-      for (int i = 0; i < 10; i++) {
-        echo "Hello ${i}"
-        sleep(1)
-      }
-    },
-    loop5Branch: {
-      for (int i = 0; i < 5; i++) {
-        echo "World ${i}"
-        sleep(1)
-      }
+pipeline {
+    agent none
+    
+    stages {
+        stage('Run parallel'){
+            parallel {
+                stage('Hello') {
+                    agent any
+                    steps {
+                        sh "echo Hello && sleep 10"
+                    }
+                }
+                stage('World') {
+                    agent any
+                    steps {
+                        sh "echo World && sleep 5"
+                    }
+                }
+                stage('Number') {
+                    agent any
+                    steps {
+                        sh "echo Number && sleep 7"
+                    }
+                }
+            }
+        }
     }
-  }
 }
