@@ -18,9 +18,6 @@
         - build-essential
         - jq
         state: present
-    - npm:
-        name: abao
-        global: yes
   roles:
     - role: geerlingguy.jenkins
 
