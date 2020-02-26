@@ -6,51 +6,24 @@ Vagrant.configure("2") do |config|
 
   config.vm.box_check_update = false
 
-  config.vm.define "jenkins.vm" do |jvm|
-    jvm.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
-    jvm.vm.network "private_network", ip: "192.168.50.10"
-    jvm.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
-      vb.cpus   = "2"
-      vb.name   = "jenkins.vm"
-    end
-  end
+  hosts = [
+    { name: "jenkins", forwarded_port: { guest: 8080, host: 8080 }, private_network: { ip: "192.168.50.10" }, memory: 1024, cpus: 2 },
+    { name: "nexus", forwarded_port: { guest: 8081, host: 8081 }, private_network: { ip: "192.168.50.11" }, memory: 2048, cpus: 1 },
+    { name: "staging", forwarded_port: { guest: 8888, host: 8889 }, private_network: { ip: "192.168.50.20" }, memory: 512, cpus: 1 },
+    { name: "production", forwarded_port: { guest: 8888, host: 8888 }, private_network: { ip: "192.168.50.21" }, memory: 512, cpus: 1 },
+    { name: "node1", private_network: { ip: "192.168.50.30" }, memory: 512, cpus: 1 },
+    { name: "node2", private_network: { ip: "192.168.50.31" }, memory: 512, cpus: 1 }
+  ]
 
-  config.vm.define "nexus.vm" do |nvm|
-    nvm.vm.network "forwarded_port", guest: 8081, host: 8081, host_ip: "127.0.0.1"
-    nvm.vm.network "private_network", ip: "192.168.50.11"
-    nvm.vm.provider "virtualbox" do |vb|
-      vb.memory = "2048"
-      vb.cpus   = "1"
-      vb.name   = "nexus.vm"
-    end
-  end
-
-  config.vm.define "staging.vm" do |svm|
-    svm.vm.network "forwarded_port", guest: 8888, host: 8889, host_ip: "127.0.0.1"
-    svm.vm.network "private_network", ip: "192.168.50.20"
-    svm.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
-      vb.cpus   = "1"
-      vb.name   = "staging.vm"
-    end
-  end
-
-  config.vm.define "node1.vm" do |n1|
-    n1.vm.network "private_network", ip: "192.168.50.30"
-    n1.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
-      vb.cpus   = "1"
-      vb.name   = "node1.vm"
-    end
-  end
-
-  config.vm.define "node2.vm" do |n2|
-    n2.vm.network "private_network", ip: "192.168.50.31"
-    n2.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
-      vb.cpus   = "1"
-      vb.name   = "node2.vm"
+  hosts.each do |host|
+    config.vm.define "#{host[:name]}.vm" do |hvm|
+      hvm.vm.network :forwarded_port, host[:forwarded_port] if host.key? :forwarded_port
+      hvm.vm.network :private_network, host[:private_network] if host.key? :provate_network
+      hvm.vm.provider :virtualbox do |vb|
+        vb.memory = host[:memory] || 512
+        vb.cpus   = host[:cpus]   || 1
+        vb.name   = "#{host[:name]}.vm"
+      end
     end
   end
 

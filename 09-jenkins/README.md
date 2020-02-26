@@ -1,3 +1,4 @@
+### Скрипт для сборки проекта
 ```bash
 export GOPATH=$WORKSPACE
 export PATH="$PATH:$(go env GOPATH)/bin"
@@ -11,6 +12,7 @@ md5sum artifacts/*/word-cloud-generator* >artifacts/word-cloud-generator.md5
 gzip artifacts/*/word-cloud-generator*
 ```
 
+### Скрипт для развертывания приложения на сервере
 ```bash
 sudo service wordcloud stop
 
@@ -21,6 +23,7 @@ chmod +x /opt/wordcloud/word-cloud-generator
 sudo service wordcloud start
 ```
 
+### Интеграционные тесты
 ```bash
 res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://192.168.50.20:8888/version | jq '. | length'`
 if [ "1" != "$res" ]; then
