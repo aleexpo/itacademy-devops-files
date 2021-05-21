@@ -2,6 +2,13 @@
 
 #### Конфигурация по умолчанию
 
+* Удалите gnupg и переустановите gnupg2
+```
+apt remove gnupg
+apt install --reinstall gnupg2
+apt install dirmngr
+```
+
 * В домашней директории пользователя создайте директорию `.config/lxc`, в неё скопируйте файл /etc/lxc/default.conf
 
   1. Измените значение *lxc.apparmor.profile* на *unconfined*
