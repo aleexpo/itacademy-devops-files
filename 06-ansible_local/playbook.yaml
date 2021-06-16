@@ -5,7 +5,7 @@
   tasks:
     - file:
         path: '{{ item.fpath }}'
-        state: touch
+        state: file
         owner: vagrant
         mode: u+rw,g-rwx,o-rwx
       loop:
