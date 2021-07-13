@@ -1,4 +1,17 @@
 ---
+# Edit key-file permissions
+- name: Touch the file, but add/remove some permissions
+  hosts: node2
+  tasks:
+    - file:
+        path: '{{ item.fpath }}'
+        state: file
+        owner: vagrant
+        mode: u+rw,g-rwx,o-rwx
+      loop:
+        - { fpath: /home/vagrant/private_key_node0 }
+        - { fpath: /home/vagrant/private_key_node1 }
+
 # Playbook №1, будет выполняться только на хосте с именем node1
 - name: Node1 config
   hosts: node1
