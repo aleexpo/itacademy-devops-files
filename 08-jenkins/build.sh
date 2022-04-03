@@ -7,7 +7,7 @@ go get github.com/GeertJohan/go.rice/rice
 go get github.com/wickett/word-cloud-generator/wordyapi
 go get github.com/gorilla/mux
 
-sed -i 's/1.DEVELOPMENT/1.$BUILD_NUMBER/g' ./rice-box.go
+sed -i "s/1.DEVELOPMENT/1.$BUILD_NUMBER/g" static/version
 
 GOOS=linux GOARCH=amd64 go build -o ./artifacts/word-cloud-generator -v 
 
