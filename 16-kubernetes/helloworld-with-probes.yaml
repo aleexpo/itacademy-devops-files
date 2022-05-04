@@ -40,4 +40,4 @@ spec:
             # Path to probe
             path: /
             # Port to probe
-            port: 810
+            port: 80

@@ -17,6 +17,10 @@ spec:
         image: karthequian/helloworld:latest
         ports:
         - containerPort: 80
+      - name: curl
+        image: curlimages/curl
+        command: ["sleep"]
+        args: ["10000"]
 ---
 apiVersion: v1
 kind: Service
