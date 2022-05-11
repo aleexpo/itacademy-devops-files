@@ -4,7 +4,7 @@ resource "kubernetes_service" "wcg" {
   }
   spec {
     selector = {
-      App = kubernetes_deployment.wcg-deployment.spec.0.template.0.metadata[0].labels.App
+      App = "wcg"
     }
     port {
       node_port   = 30088
